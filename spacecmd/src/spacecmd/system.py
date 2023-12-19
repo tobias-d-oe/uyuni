@@ -4771,3 +4771,47 @@ def do_system_bootstrap(self, args):
 
 ####################
 
+
+def help_system_needreboot(self):
+    print(_("system_needreboot: Shows if reboot is needed"))
+    print('')
+
+def complete_system_needreboot(self, text, line, beg, end):
+    return self.tab_complete_systems(text)
+
+def do_system_needreboot(self, args, short=False):
+    arg_parser = get_argument_parser()
+
+    (args, _options) = parse_command_arguments(args, arg_parser)
+
+    if not args:
+        self.help_system_needreboot()
+        return 1
+
+    add_separator = False
+
+    # use the systems listed in the SSM
+    if re.match('ssm', args[0], re.I):
+        systems = self.ssm.keys()
+    else:
+        systems = self.expand_systems(args)
+
+    if not systems:
+        logging.warning(_N('No systems selected'))
+        return 1
+
+    sys_need_reboot = self.client.system.listSuggestedReboot(self.session)
+    for system in sorted(systems):
+        system_id = self.get_system_id(system)
+        system_needs_reboot = False
+        if system in sys_need_reboot:
+            if not self.options.quiet:
+                print(_("System '{}' needs to be rebooted".format(system)))
+            else:
+                print("'{}': 1".format(system))
+        else:
+            if not self.options.quiet:
+                print(_("No reboot needed for system '{}'".format(system)))
+            else:
+                print("'{}': 0".format(system))
+    return 0
