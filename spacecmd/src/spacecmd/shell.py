@@ -57,7 +57,7 @@ class UnknownCallException(Exception):
 
 class SpacewalkShell(Cmd):
     __module_list = ['activationkey', 'configchannel', 'cryptokey',
-                     'custominfo', 'distribution', 'errata',
+                     'custominfo', 'clm', 'distribution', 'errata',
                      'filepreservation', 'group', 'kickstart',
                      'misc', 'org', 'package', 'proxy', 'repo', 'report', 'schedule',
                      'snippet', 'softwarechannel', 'ssm', 'api',

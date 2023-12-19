@@ -474,6 +474,66 @@ def _show_traditional_stack_message(self):
         # hasTraditionalSystems endpoint is not available prior to 4.3
         logging.debug(_N("Skipping traditional system check"))
 
+
+def tab_complete_clm_projects(self, text):
+    clm_projects = self.client.contentmanagement.listProjects(self.session)
+    projects = []
+    for project in clm_projects:
+        projects.append(project['label'])
+
+    return tab_completer(projects, text)
+
+
+def tab_complete_clm_env(self, proj, text):
+    clm_env = self.client.contentmanagement.listProjectEnvironments(self.session,proj)
+    env = []
+    for e in clm_env:
+        env.append(e['label'])
+    return tab_completer(env, text)
+
+
+def tab_complete_clm_src(self, proj, text):
+    clm_src = self.client.contentmanagement.listProjectSources(self.session,proj)
+    src = []
+    for s in clm_src:
+        src.append(s['channelLabel'])
+    return tab_completer(src, text)
+
+
+def tab_complete_filter_rule(self,text):
+    return tab_completer(['deny','allow'],text)
+
+
+def tab_complete_filter_type(self,text):
+    return tab_completer(['erratum','package','module','ptf'],text)
+
+
+def tab_complete_filter_matcher(self, ftype, text):
+    clm_filters = self.client.contentmanagement.listFilterCriteria(self.session)
+    filter = []
+    
+    for f in clm_filters:
+        if f['type'] == ftype:
+            filter.append(f['matcher'])
+    return tab_completer(filter, text)
+
+
+def tab_complete_filters(self, text):
+    clm_filters = self.client.contentmanagement.listFilters(self.session)
+    filters = []
+    for f in clm_filters:
+        filters.append(f['name'])
+    return tab_completer(filters,text)
+
+
+def tab_complete_clm_projectfilters(self, proj, text):
+    clm_filters = self.client.contentmanagement.listProjectFilters(self.session, proj)
+    filters = []
+    for f in clm_filters:
+        filters.append(f['filter']['name'])
+    return tab_completer(filters,text)
+
+
 def tab_complete_errata(self, text):
     options = self.do_errata_list('', True)
     options.append('search:')
