@@ -18,7 +18,7 @@
 
 
 Name:           spacewalk
-Version:        4.4.4
+Version:        4.4.5
 Release:        1
 Summary:        Spacewalk Systems Management Application
 License:        GPL-2.0-only
@@ -109,20 +109,14 @@ Provides:       spacewalk-db-virtual = %{version}-%{release}
 Requires:       spacewalk-backend-sql-postgresql
 Requires:       spacewalk-java-postgresql
 Requires:       perl(DBD::Pg)
-%if 0%{?sle_version}
-%if 0%{?sle_version} >= 150400
-Requires:       postgresql14
-Requires:       postgresql14-contrib
-# we do not support postgresql versions > 14.x yet
-Conflicts:      postgresql-implementation >= 15
-Conflicts:      postgresql-contrib-implementation >= 15
-%else # not sle_version >= 150400
-Requires:       postgresql13
-Requires:       postgresql13-contrib
-# we do not support postgresql versions > 13.x yet
-Conflicts:      postgresql-implementation >= 14
-Conflicts:      postgresql-contrib-implementation >= 14
-%endif # if sle_version >= 150400
+%if 0%{?suse_version}
+# Actual version set by prjconf, default is 14
+%{!?postgresql_version_min: %global postgresql_version_min 14}
+%{!?postgresql_version_max: %global postgresql_version_max 15}
+Requires:       postgresql-implementation >= %{postgresql_version_min}
+Requires:       postgresql-contrib-implementation >= %{postgresql_version_min}
+Conflicts:      postgresql-implementation > %{postgresql_version_max}
+Conflicts:      postgresql-contrib-implementation > %{postgresql_version_max}
 %else # not a supported SUSE version or alternative OS.
 Requires:       postgresql14
 Requires:       postgresql14-contrib

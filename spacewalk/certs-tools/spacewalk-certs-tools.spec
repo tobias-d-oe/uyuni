@@ -32,7 +32,7 @@ Name:           spacewalk-certs-tools
 Summary:        Spacewalk SSL Key/Cert Tool
 License:        GPL-2.0-only
 Group:          Applications/Internet
-Version:        4.4.8
+Version:        4.4.9
 Release:        1
 URL:            https://github.com/uyuni-project/uyuni
 Source0:        https://github.com/uyuni-project/uyuni/archive/%{name}-%{version}.tar.gz
@@ -128,8 +128,6 @@ ln -s rhn-sudo-ssl-tool $RPM_BUILD_ROOT/%{_bindir}/mgr-sudo-ssl-tool
 %{_bindir}/mgr-bootstrap
 %{_bindir}/mgr-ssl-tool
 %{_bindir}/mgr-sudo-ssl-tool
-%{_sbindir}/mgr-push-register
-%{_sbindir}/mgr-ssh-push-init
 
 %files -n python3-%{name}
 %{python3_sitelib}/certs
