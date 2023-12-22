@@ -18,7 +18,7 @@
 
 
 Name:           spacewalk-setup-postgresql
-Version:        4.4.2
+Version:        4.4.3
 Release:        1
 Summary:        Tools to setup embedded PostgreSQL database for Spacewalk
 License:        GPL-2.0-only
@@ -28,13 +28,14 @@ Source0:        https://github.com/spacewalkproject/spacewalk/archive/%{name}-%{
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 BuildArch:      noarch
 %if 0%{?suse_version}
-%if 0%{?sle_version} >= 150400
-Requires:       postgresql14-contrib
-Requires:       postgresql14-server
-%else
-Requires:       postgresql13-contrib
-Requires:       postgresql13-server
-%endif
+# Actual version set by prjconf, default is 14
+%{!?postgresql_version_min: %global postgresql_version_min 14}
+%{!?postgresql_version_max: %global postgresql_version_max 15}
+Requires:       postgresql-server-implementation >= %{postgresql_version_min}
+Requires:       postgresql-contrib-implementation >= %{postgresql_version_min}
+Conflicts:      postgresql-server-implementation > %{postgresql_version_max}
+Conflicts:      postgresql-contrib-implementation > %{postgresql_version_max}
+
 %else
 Requires:       postgresql-contrib >= 12
 Requires:       postgresql-server > 12

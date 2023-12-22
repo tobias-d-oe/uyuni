@@ -33,7 +33,7 @@ Name:           spacewalk-web
 Summary:        Spacewalk Web site - Perl modules
 License:        GPL-2.0-only
 Group:          Applications/Internet
-Version:        4.4.12
+Version:        4.4.13
 Release:        1
 URL:            https://github.com/uyuni-project/uyuni
 Source0:        https://github.com/uyuni-project/uyuni/archive/%{name}-%{version}.tar.gz
@@ -267,8 +267,6 @@ sed -i -e 's/^web.theme_default =.*$/web.theme_default = susemanager-light/' $RP
 %{www_path}/javascript/manager/*.{js,js.LICENSE.txt,css}
 %dir %{www_path}/javascript/legacy
 %{www_path}/javascript/legacy/*.{js,js.LICENSE.txt,css}
-%dir %{www_path}/javascript/legacy/select2
-%{www_path}/javascript/legacy/select2/*
 %dir %{www_path}/javascript/legacy/ace-editor
 %{www_path}/javascript/legacy/ace-editor/*
 %license LICENSE
